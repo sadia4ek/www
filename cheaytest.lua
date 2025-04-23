@@ -1,24 +1,11 @@
-local Players = game:GetService("Players")
-local StarsFolder = game.Workspace:WaitForChild("Stars")
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 
-local function teleportToStars(player)
-    local character = player.Character or player.CharacterAdded:Wait()
-    for _, star in StarsFolder:GetChildren() do
-        if star:IsA("Part") then
-            character:MoveTo(star.Position)
-            task.wait(0.1)  -- Wait for second before moving to the next star
-        end
-    end
-end
+local Window Library.CreateLib("Name", "RJTheme5") 
 
-Players.PlayerAdded:Connect(function(player)
-    player.CharacterAdded:Connect(function()
-        teleportToStars(player)
-    end)
+local Tab Window: NewTab("qwe") 
+
+local Section Tab: NewSection("Section Name")
+
+Section:NewButton("Auto Stars", "Auto teleport to stars", function()
+    print("Clicked")
 end)
-
-for _, player in Players:GetPlayers() do
-    player.CharacterAdded:Connect(function()
-        teleportToStars(player)
-    end)
-end
