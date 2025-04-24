@@ -1,36 +1,22 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 
-local Window = Library.CreateLib("TEaST", "RJTheme4")
+local Window = Library.CreateLib("TEцфцT", "RJTheme5")
 
 local Tab = Window:NewTab("Stars")
 
 local Section = Tab:NewSection("TEST")
 
 Section:NewButton("Auto Farm Stars", "Teleport to stars", function()
-    print("ві забалелі спідам")
-    local Players = game:GetService("Players")
-    local StarsFolder = game.Workspace.Stars
-
-    local function teleportToStars(player)
+    local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
-        for _, star in StarsFolder:GetChildren() do
-            if star:IsA("Part") then
-                character:MoveTo(star.Position)
-                task.wait(0.1)  -- Wait for second before moving to the next star
-            end
-        end
-    end
-
-    Players.PlayerAdded:Connect(function(player)
-        player.CharacterAdded:Connect(function()
-            teleportToStars(player)
-        end)
-    end)
-
-    for _, player in Players:GetPlayers() do
-        player.CharacterAdded:Connect(function()
-                print("ві забалелі спідам")
-            teleportToStars(player)
-        end)
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    
+    local starsFolder = workspace:WaitForChild("Stars")
+    
+    for _, star in ipairs(starsFolder:GetChildren()) do
+    	if star:IsA("BasePart") then
+    		humanoidRootPart.CFrame = star.CFrame + Vector3.new(0, 5, 0) -- телепорт трохи вище
+    		wait(1) -- затримка між телепортами
+    	end
     end
 end)
