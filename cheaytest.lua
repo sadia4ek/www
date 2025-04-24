@@ -1,17 +1,11 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 
-local Window = Rayfield:CreateWindow({
-   Name = "Rayfield Example Window",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Rayfield Interface Suite",
-   LoadingSubtitle = "by Sirius",
-   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+local Window = Library.CreateLib("TEST", "RJTheme3")
 
+local Tab = Window:NewTab("Stars")
 
-local Tab = Window:CreateTab("Tab Example", "rewind")
+local Section = Tab:NewSection("TEST")
 
-local Section = Tab:NewSection("Section Name")
-
-Section:NewButton("AutoStars", "ne rabotaet sosi", function()
-    print("test")
-end
+Section:NewButton("wd", "wda", function()
+    print("Clicked")
+end)
