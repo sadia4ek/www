@@ -1,48 +1,42 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 
-local Window = Library.CreateLib("Yeet A Friend (обновфр", "RJTheme3")
+local Window = Library.CreateLib("Yeet A Friend (0.1 тест)", "RJTheme3")
 
 local Tab = Window:NewTab("Stars")
 
 local Section = Tab:NewSection("AutoFarm")
 
-Section:NewToggle("AutoFarm Stars", "Teleport to stars", function(state)
-    -- Получаем игрока и его персонажа
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
+-- Початкова швидкість телепортації
+local teleportSpeed = 0.1
 
-    -- Функция проверки условий
-    local function canTeleport(rootPart)
-        -- Проверка, что парт находится в модели
-        if not rootPart.Parent:IsA("Model") then
-            return false
-        end
+-- Слайдер для налаштування швидкості телепортації
+Section:NewSlider("Teleport Speed", "Adjust the speed of teleportation", 1, 0.01, function(s)
+    teleportSpeed = s  -- Оновлюємо швидкість телепортації
+    print("Teleport Speed: " .. teleportSpeed)  -- Виводимо нову швидкість в консоль
+end)
 
-        -- Проверка, что модель находится в папке Stars
-        local parent = rootPart.Parent
-        while parent do
-            if parent.Name == "Stars" then
-                return true
-            end
-            parent = parent.Parent
-        end
+Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
+    local Players = game:GetService("Players")
+    local lp = Players.LocalPlayer
 
-        -- Если модель не в папке Stars, телепортация невозможна
-        return false
+    local function getCharacter()
+        local char = lp.Character or lp.CharacterAdded:Wait()
+        local hrp = char:FindFirstChild("HumanoidRootPart") or char:WaitForChild("HumanoidRootPart")
+        return char, hrp
     end
 
-    -- Получаем объект Root (если он существует)
-    local rootPart = character:FindFirstChild("HumanoidRootPart")
-    if rootPart then
-        -- Проверяем, можно ли телепортировать
-        if canTeleport(rootPart) then
-            -- Проверка цвета Root
-            if rootPart.Color ~= Color3.fromRGB(165, 85, 19) then
-                -- Если тумблер активирован (state = true), телепортируем игрока к объекту Root
-                if state then
-                    character:SetPrimaryPartCFrame(rootPart.CFrame)
-                end
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("BasePart") and string.find(obj.Name, "Root") then
+            -- Перевірка на колір
+            local color = obj.Color
+            if color == Color3.fromRGB(165, 85, 19) then
+                continue -- Пропускаємо об'єкти з цим кольором
             end
+
+            -- Телепортація
+            local _, hrp = getCharacter()
+            hrp.CFrame = obj.CFrame + Vector3.new(0, 5, 0)
+            wait(teleportSpeed) -- Використовуємо слайдер для контролю затримки
         end
     end
 end)
