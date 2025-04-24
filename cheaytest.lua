@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 
-local Window = Library.CreateLib("Yeet A Friend (0.2 тест)", "RJTheme3")
+local Window = Library.CreateLib("Yeet A Friend (обновфр", "RJTheme3")
 
 local Tab = Window:NewTab("Stars")
 
