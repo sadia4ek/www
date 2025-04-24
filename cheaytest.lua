@@ -6,7 +6,7 @@ local Tab = Window:NewTab("Stars")
 
 local Section = Tab:NewSection("AutoFarm")
 
-Section:NewToogle("AutoFarm Stars", "Teleport to stars", function(state)
+Section:NewToggle("AutoFarm Stars", "Teleport to stars", function(state)
     -- Получаем игрока и его персонажа
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -38,15 +38,11 @@ Section:NewToogle("AutoFarm Stars", "Teleport to stars", function(state)
         if canTeleport(rootPart) then
             -- Проверка цвета Root
             if rootPart.Color ~= Color3.fromRGB(165, 85, 19) then
-                -- Телепортируем игрока к объекту Root
-                character:SetPrimaryPartCFrame(rootPart.CFrame)
-            else
-                print("Vip Stars, Skipped")
+                -- Если тумблер активирован (state = true), телепортируем игрока к объекту Root
+                if state then
+                    character:SetPrimaryPartCFrame(rootPart.CFrame)
+                end
             end
-        else
-            print("Teleport error")
         end
-    else
-        print("Stars not found")
     end
 end)
