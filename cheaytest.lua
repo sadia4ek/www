@@ -6,52 +6,47 @@ local Tab = Window:NewTab("Stars")
 
 local Section = Tab:NewSection("AutoFarm")
 
-local teleportInProgress = false  -- Флаг для отслеживания текущего процесса телепортации
+Section:NewToogle("AutoFarm Stars", "Teleport to stars", function(state)
+    -- Получаем игрока и его персонажа
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
 
-Section:NewButton("AutoFarm Stars", "Teleport to stars", function()
-    -- Если телепортация уже в процессе, прерываем выполнение
-    if teleportInProgress then
-        print("Teleportation already in progress. Stopping.")
-        return
-    end
-
-    teleportInProgress = true  -- Устанавливаем флаг, что процесс телепортации начался
-
-    local Players = game:GetService("Players")
-    local lp = Players.LocalPlayer
-
-    local function getCharacter()
-        local char = lp.Character or lp.CharacterAdded:Wait()
-        local hrp = char:FindFirstChild("HumanoidRootPart") or char:WaitForChild("HumanoidRootPart")
-        return char, hrp
-    end
-
-    local teleported = false  -- Флаг, который отслеживает, были ли выполнены телепортации
-
-    for _, obj in ipairs(workspace:GetDescendants()) do
-        -- Проверка, что объект является частью модели в папке Stars и содержит "Root" в имени
-        if obj:IsA("BasePart") and string.find(obj.Name, "Root") then
-            local parent = obj.Parent
-            if parent and parent.Name == "Stars" then
-                -- Проверка на цвет
-                local color = obj.Color
-                if color == Color3.fromRGB(165, 85, 19) then
-                    continue -- Пропускаем объекты с этим цветом
-                end
-
-                -- Телепортация
-                local _, hrp = getCharacter()
-                hrp.CFrame = obj.CFrame + Vector3.new(0, 0, 0)
-                teleported = true  -- Отмечаем, что телепортация была выполнена
-                wait(0.1) -- Используем слайдер для контроля задержки
-            end
+    -- Функция проверки условий
+    local function canTeleport(rootPart)
+        -- Проверка, что парт находится в модели
+        if not rootPart.Parent:IsA("Model") then
+            return false
         end
+
+        -- Проверка, что модель находится в папке Stars
+        local parent = rootPart.Parent
+        while parent do
+            if parent.Name == "Stars" then
+                return true
+            end
+            parent = parent.Parent
+        end
+
+        -- Если модель не в папке Stars, телепортация невозможна
+        return false
     end
 
-    -- Если не было телепортации, выводим сообщение
-    if not teleported then
-        print("No more stars to teleport to!")
+    -- Получаем объект Root (если он существует)
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    if rootPart then
+        -- Проверяем, можно ли телепортировать
+        if canTeleport(rootPart) then
+            -- Проверка цвета Root
+            if rootPart.Color ~= Color3.fromRGB(165, 85, 19) then
+                -- Телепортируем игрока к объекту Root
+                character:SetPrimaryPartCFrame(rootPart.CFrame)
+            else
+                print("Vip Stars, Skipped")
+            end
+        else
+            print("Teleport error")
+        end
+    else
+        print("Stars not found")
     end
-
-    teleportInProgress = false  -- Завершаем процесс телепортации
 end)
