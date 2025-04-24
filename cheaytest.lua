@@ -1,10 +1,10 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
 
-local Window = Library.CreateLib("TEцфцT", "RJTheme5")
+local Window = Library.CreateLib("Yeet A Friend", "RJTheme3")
 
 local Tab = Window:NewTab("Stars")
 
-local Section = Tab:NewSection("TEST")
+local Section = Tab:NewSection("AutoFarm")
 
 Section:NewButton("Auto Farm Stars", "Teleport to stars", function()
     local lp = game.Players.LocalPlayer
