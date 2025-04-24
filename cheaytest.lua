@@ -6,15 +6,6 @@ local Tab = Window:NewTab("Stars")
 
 local Section = Tab:NewSection("AutoFarm")
 
--- Початкова швидкість телепортації
-local teleportSpeed = 0.1
-
--- Слайдер для налаштування швидкості телепортації
-Section:NewSlider("Teleport Speed", "Adjust the speed of teleportation", 1, 0.01, function(s)
-    teleportSpeed = s  -- Оновлюємо швидкість телепортації
-    print("Teleport Speed: " .. teleportSpeed)  -- Виводимо нову швидкість в консоль
-end)
-
 Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
     local Players = game:GetService("Players")
     local lp = Players.LocalPlayer
@@ -25,18 +16,25 @@ Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
         return char, hrp
     end
 
-    for _, obj in ipairs(workspace:GetDescendants()) do
-        if obj:IsA("BasePart") and string.find(obj.Name, "Root") then
-            -- Перевірка на колір
-            local color = obj.Color
-            if color == Color3.fromRGB(165, 85, 19) then
-                continue -- Пропускаємо об'єкти з цим кольором
-            end
+    local starsFolder = workspace:FindFirstChild("Stars")
+    if not starsFolder then
+        warn("Папка 'Stars' не найдена в workspace.")
+        return
+    end
 
-            -- Телепортація
-            local _, hrp = getCharacter()
-            hrp.CFrame = obj.CFrame + Vector3.new(0, 5, 0)
-            wait(teleportSpeed) -- Використовуємо слайдер для контролю затримки
+    for _, model in ipairs(starsFolder:GetChildren()) do
+        if model:IsA("Model") then
+            local root = model:FindFirstChild("Root")
+            if root and root:IsA("BasePart") then
+                local color = root.Color
+                if color == Color3.fromRGB(165, 85, 19) then
+                    continue -- Пропустить если нежелательный цвет
+                end
+
+                local _, hrp = getCharacter()
+                hrp.CFrame = root.CFrame
+                wait(0.2)
+            end
         end
     end
 end)
