@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/stysscythe/script/main/LibTest.lua"))()
 
-local Window = Library.Window('Yeet A Friend')
+local Window = Library.Window('142')
 
 local Test1 = Window.CreateTab('Stars')
 
