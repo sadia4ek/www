@@ -1,9 +1,10 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/stysscythe/script/main/LibTest.lua"))()
 
-local Window = Library.CreateLib("Yeet A Friend", "GrapeTheme")
+local Window = Library.Window('Yeet A Friend')
 
+local Test1 = Window.CreateTab('Stars')
 
-Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
+Test1.CreateButton("Teleport To Stars", function()
     local Players = game:GetService("Players")
     local lp = Players.LocalPlayer
 
