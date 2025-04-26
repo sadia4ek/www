@@ -1,15 +1,27 @@
-UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/samerop/Aero/main/source.lua"))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-UI:CreateWindow({
-	Title = "bebra"
-})
+local Window = Rayfield:CreateWindow({
+   Name = "Yeet A Friend",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "shdite epta",
+   LoadingSubtitle = "nasosi",
+   Theme = "DarkBlue", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
-tab = UI:CreateTab({
-	Name = "Stars"
-})
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = true, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
 
-button = UI:CreateButton({
-    local Players = game:GetService("Players")
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+   },
+
+local Tab = Window:CreateTab("⭐Stars⭐", 0) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "Teleport to stars",
+   Callback = function()
+	local Players = game:GetService("Players")
     local lp = Players.LocalPlayer
 
     local function getCharacter()
@@ -38,7 +50,6 @@ button = UI:CreateButton({
                 wait(0.2)
             end
         end
-    end
+    end	
+end,
 })
-    
-end)
