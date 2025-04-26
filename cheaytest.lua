@@ -1,22 +1,8 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-local Window = Library.CreateLib("Yeet A Friend ура кефйщц", "RJTheme3")
+local Window = Library.CreateLib("Yeet A Friend", "DarkTheme")
 
-local Tab = Window:NewTab("Stars")
-local Section = Tab:NewSection("AutoFarm")
 
--- UI Toggle
-local ui = game:GetService("CoreGui"):FindFirstChild("RJUI")
-local uiVisible = true
-
-Section:NewKeybind("Toggle GUI", "Visible/Unvisible cheat gui", Enum.KeyCode.K, function()
-    if ui then
-        uiVisible = not uiVisible
-        ui.Enabled = uiVisible
-    end
-end)
-
--- AutoFarm Stars
 Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
     local Players = game:GetService("Players")
     local lp = Players.LocalPlayer
@@ -49,6 +35,3 @@ Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
         end
     end
 end)
-
--- Второй таб "Setings"
-local SettingsTab = Window:NewTab("Setings")
