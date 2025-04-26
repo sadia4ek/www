@@ -1,10 +1,14 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/stysscythe/script/main/LibTest.lua"))()
+UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/samerop/Aero/main/source.lua"))()
 
-local Window = Library.Window('142')
+UI:CreateWindow({
+	Title = "bebra"
+})
 
-local Test1 = Window.CreateTab('Stars')
+tab = UI:CreateTab({
+	Name = "Stars"
+})
 
-Test1.CreateButton("Teleport To Stars", function()
+button = UI:CreateButton({
     local Players = game:GetService("Players")
     local lp = Players.LocalPlayer
 
@@ -35,4 +39,6 @@ Test1.CreateButton("Teleport To Stars", function()
             end
         end
     end
+})
+    
 end)
