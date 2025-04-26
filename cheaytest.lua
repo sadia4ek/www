@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-local Window = Library.CreateLib("Yeet A Friend", "DarkTheme")
+local Window = Library.CreateLib("Yeet A Friend", "GrapeTheme")
 
 
 Section:NewButton("AutoFarm Stars", "Teleport to Stars", function()
