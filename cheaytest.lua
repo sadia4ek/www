@@ -1,9 +1,8 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local UserInputService = game:GetService("UserInputService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
--- Все возможные клавиши (кроме пробела)
+-- Все возможные клавиши (без пробела)
 local possibleKeys = {
     Enum.KeyCode.A, Enum.KeyCode.B, Enum.KeyCode.C, Enum.KeyCode.D, Enum.KeyCode.E,
     Enum.KeyCode.F, Enum.KeyCode.G, Enum.KeyCode.H, Enum.KeyCode.I, Enum.KeyCode.J,
@@ -12,7 +11,7 @@ local possibleKeys = {
     Enum.KeyCode.U, Enum.KeyCode.V, Enum.KeyCode.W, Enum.KeyCode.X, Enum.KeyCode.Y, Enum.KeyCode.Z,
 }
 
--- Функция для случайного нажатия клавиш
+-- Функция нажатия 18 случайных клавиш
 local function pressRandomKeys()
     local used = {}
 
@@ -23,22 +22,26 @@ local function pressRandomKeys()
         until not used[key]
         used[key] = true
 
-        -- Нажатие клавиши
+        -- Нажимаем и отпускаем
         VirtualInputManager:SendKeyEvent(true, key, false, game)
-        wait(0.05)
+        task.wait(0.05)
         VirtualInputManager:SendKeyEvent(false, key, false, game)
     end
 end
 
--- GUI кнопка запуска
-Rayfield:CreateWindow({
-    Name = "Random Key Presser",
+-- Создание GUI окна и кнопки
+local Window = Rayfield:CreateWindow({
+    Name = "Key Presser GUI",
     LoadingTitle = "Загрузка...",
-    LoadingSubtitle = "by ты",
+    LoadingSubtitle = "Random Key Spammer",
     ConfigurationSaving = {
-        Enabled = false,
+        Enabled = false
     }
-}):CreateTab("Main"):CreateButton({
-    Name = "Нажать 18 случайных кнопок",
+})
+
+local Tab = Window:CreateTab("Главная", 4483362458)
+
+Tab:CreateButton({
+    Name = "Нажать 18 случайных клавиш",
     Callback = pressRandomKeys,
 })
