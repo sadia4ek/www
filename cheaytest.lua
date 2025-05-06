@@ -1,5 +1,6 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local VirtualInputManager = game:GetService("VirtualInputManager")
+local Players = game:GetService("Players")
 
 -- Все возможные клавиши (без пробела)
 local possibleKeys = {
@@ -10,24 +11,39 @@ local possibleKeys = {
     Enum.KeyCode.U, Enum.KeyCode.V, Enum.KeyCode.W, Enum.KeyCode.X, Enum.KeyCode.Y, Enum.KeyCode.Z,
 }
 
--- Переменная для хранения задержки (по умолчанию 0.05)
+-- Переменная для хранения задержки
 local pressDelay = 0.05
 
 -- Функция нажатия 18 случайных клавиш
 local function pressRandomKeys()
     local used = {}
-
     for i = 1, 18 do
         local key
         repeat
             key = possibleKeys[math.random(1, #possibleKeys)]
         until not used[key]
         used[key] = true
-
-        -- Нажимаем и отпускаем
         VirtualInputManager:SendKeyEvent(true, key, false, game)
         task.wait(pressDelay)
         VirtualInputManager:SendKeyEvent(false, key, false, game)
+    end
+end
+
+-- Функции телепортации
+local function teleportToRandomTrash()
+    local player = Players.LocalPlayer
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local randomTrashCFrame = CFrame.new(-114.947807, 1.75305176, -1682.50854, -0.866007447, 0, -0.500031412, 0, 1, 0, 0.500031412, 0, -0.866007447)
+        player.Character.HumanoidRootPart.CFrame = randomTrashCFrame
+    end
+end
+
+-- Телепорты на другие локации (выше)
+local function teleportToHoverboardShop()
+    local player = Players.LocalPlayer
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local hoverboardShopCFrame = CFrame.new(-154.575562, -203.793839, -1715.92407, -1.1920929e-07, 0, 1.00000012, 0, 1, 0, -1.00000012, 0, -1.1920929e-07)
+        player.Character.HumanoidRootPart.CFrame = hoverboardShopCFrame
     end
 end
 
@@ -43,14 +59,15 @@ local Window = Rayfield:CreateWindow({
 
 local Tab = Window:CreateTab("Edit", 4483362458)
 local Tab2 = Window:CreateTab("Video", 4483362458)
+local Tab3 = Window:CreateTab("Teleport", 4483362458)
 
--- Кнопка запуска
+-- Кнопка быстрой правки
 Tab:CreateButton({
     Name = "Fast Edit",
     Callback = pressRandomKeys,
 })
 
--- Слайдер регулировки скорости
+-- Слайдер задержки между нажатиями
 Tab:CreateSlider({
     Name = "Delay between keys",
     Range = {0.01, 1.0},
@@ -60,4 +77,16 @@ Tab:CreateSlider({
     Callback = function(Value)
         pressDelay = Value
     end,
+})
+
+-- Кнопки телепортации
+Tab3:CreateButton({
+    Name = "Teleport to Hoverboard Shop",
+    Callback = teleportToHoverboardShop
+})
+
+-- Кнопка телепорта в Random Trash
+Tab3:CreateButton({
+    Name = "random trash lol💩",
+    Callback = teleportToRandomTrash
 })
